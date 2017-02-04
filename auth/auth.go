@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"golang.org/x/crypto/bcrypt"
 	"github.com/ilysha-v/authboss"
 	"github.com/ilysha-v/authboss/internal/response"
+	"golang.org/x/crypto/bcrypt"
 )
 
 const (
@@ -97,10 +97,7 @@ func (a *Auth) loginHandlerFunc(ctx *authboss.Context, w http.ResponseWriter, r 
 			fmt.Fprintf(ctx.LogWriter, "auth: validate credentials failed: %v\n", err)
 			return a.templates.Render(ctx, w, r, tplLogin, errData)
 		} else if !valid {
-			if err := a.Callbacks.FireAfter(authboss.EventAuthFail, ctx); err != nil {
-				fmt.Fprintf(ctx.LogWriter, "EventAuthFail callback error'd out: %v\n", err)
-			}
-			return a.templates.Render(ctx, w, r, tplLogin, errData)
+			response.Redirect(ctx, w, r, a.AuthLoginFailPath, "", "Пользователь не найден", false)
 		}
 
 		interrupted, err := a.Callbacks.FireBefore(authboss.EventAuth, ctx)
