@@ -6,8 +6,8 @@ import (
 	"net/http"
 
 	"golang.org/x/crypto/bcrypt"
-	"gopkg.in/authboss.v1"
-	"gopkg.in/authboss.v1/internal/response"
+	"github.com/ilysha-v/authboss"
+	"github.com/ilysha-v/authboss/internal/response"
 )
 
 const (
