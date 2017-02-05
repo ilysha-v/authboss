@@ -5,9 +5,9 @@ import (
 	"errors"
 	"net/http"
 
-	"golang.org/x/crypto/bcrypt"
 	"github.com/ilysha-v/authboss"
 	"github.com/ilysha-v/authboss/internal/response"
+	"golang.org/x/crypto/bcrypt"
 )
 
 const (
@@ -107,7 +107,8 @@ func (reg *Register) registerPostHandler(ctx *authboss.Context, w http.ResponseW
 			data[f] = r.FormValue(f)
 		}
 
-		return reg.templates.Render(ctx, w, r, tplRegister, data)
+		response.Redirect(ctx, w, r, reg.RegisterFailPath, validationErrs.Error(), "", true)
+		return nil
 	}
 
 	attr, err := authboss.AttributesFromRequest(r) // Attributes from overriden forms
@@ -135,7 +136,8 @@ func (reg *Register) registerPostHandler(ctx *authboss.Context, w http.ResponseW
 			data[f] = r.FormValue(f)
 		}
 
-		return reg.templates.Render(ctx, w, r, tplRegister, data)
+		response.Redirect(ctx, w, r, reg.RegisterFailPath, "Ошибка валидации.", "", true)
+		return nil
 	} else if err != nil {
 		return err
 	}

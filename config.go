@@ -65,6 +65,8 @@ type Config struct {
 
 	// RegisterOKPath is the redirect path after a successful registration.
 	RegisterOKPath string
+	// RegisterFailPath is the redirect path after a failed registration.
+	RegisterFailPath string
 
 	// Policies control validation of form fields and are automatically run
 	// against form posts that include the fields.
